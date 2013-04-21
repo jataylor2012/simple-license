@@ -43,6 +43,12 @@ public class MakeKeys {
 		}
 	}
 
+	/**
+	 * Output is the key output directory e.g. c:/tmp/
+	 * Name is the name of the key e.g. Test
+	 * @param output
+	 * @param name
+	 */
 	public MakeKeys(String output, String name) {
 		this.output = output;
 		this.name = name;
@@ -53,7 +59,10 @@ public class MakeKeys {
 		AddProvider.INSTANCE.init();
 	}
 	
-	
+	/**
+	 * Create public and private keys and write to file.
+	 * @throws NoSuchAlgorithmException
+	 */
 	public void create() throws NoSuchAlgorithmException {
 		KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
 		keyGen.initialize(2048);
@@ -64,15 +73,11 @@ public class MakeKeys {
 		X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(
 				publicKey.getEncoded());
 
-		try {
-			FileUtils.writeByteArrayToFile(new File(output+name+".pub"), x509EncodedKeySpec.getEncoded());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 		PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(
 				privateKey.getEncoded());
+		
 		try {
+			FileUtils.writeByteArrayToFile(new File(output+name+".pub"), x509EncodedKeySpec.getEncoded());
 			FileUtils.writeByteArrayToFile(new File(output+name+".priv"), pkcs8EncodedKeySpec.getEncoded());
 		} catch (IOException e) {
 			e.printStackTrace();

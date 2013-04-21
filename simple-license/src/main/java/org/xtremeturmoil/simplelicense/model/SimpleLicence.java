@@ -2,6 +2,11 @@ package org.xtremeturmoil.simplelicense.model;
 
 import java.util.Date;
 
+/**
+ * Simple License Model implementation.
+ * @author jataylor2012
+ *
+ */
 public class SimpleLicence {
 
 	private int validForDays;
@@ -62,6 +67,10 @@ public class SimpleLicence {
 		this.start = start;
 	}
 	
+	/**
+	 * Is this licence in date?
+	 * @return
+	 */
 	public boolean check() {
 		Date now = new Date();
 		Date end = new Date(start.getTime()+(validForDays*ONE_DAY));

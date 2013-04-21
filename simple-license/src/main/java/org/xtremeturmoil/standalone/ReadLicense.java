@@ -29,6 +29,10 @@ public class ReadLicense {
 		this.file = file;
 	}
 	
+	/**
+	 * Returns a decrypted representation of the current license.
+	 * @return
+	 */
 	public SimpleLicence get() {
 		SimpleLicence licence = null;
 		BufferedReader in = null;

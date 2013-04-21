@@ -54,15 +54,35 @@ public class MakeLicense {
 		licence = new SimpleLicence(validForDays, companyName, numberOfUnits, start);
 	}
 	
+	/**
+	 * Set the key you want to use to create the licence, typically
+	 * the private key. You will use the public to read the license
+	 * and distribute with your application.
+	 * @param key
+	 */
 	public void setKey(String key) {
 		this.key = key;
 	}
 	
+	/**
+	 * Returns the encrypted licence key.
+	 * @return
+	 * @throws InvalidKeyException
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchPaddingException
+	 * @throws IllegalBlockSizeException
+	 * @throws BadPaddingException
+	 */
 	public byte[] create() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
 		UseKeys encrypt = new UseKeys(key);
 		return encrypt.encrypt(licence.toString().getBytes());
 	}
 	
+	/**
+	 * Writes an encrypted license key to a file.
+	 * @param licenceFile
+	 * @param licence
+	 */
 	public void write(String licenceFile, byte[] licence) {
 		try {
 			FileUtils.writeByteArrayToFile(new File(licenceFile), licence);

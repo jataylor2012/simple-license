@@ -5,7 +5,8 @@ A simple licensing implementation with bouncy castle using public/private keys.
 
 Usage (Can be found in unit tests):
 
-@Before
+
+	@Before
 	public void init() {
 		MakeKeys mk = new MakeKeys("", "test");
 		now = new Date();

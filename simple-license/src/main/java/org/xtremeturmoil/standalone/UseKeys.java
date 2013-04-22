@@ -13,6 +13,8 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Arrays;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -89,9 +91,40 @@ public class UseKeys {
 	}
 
 
+	/**
+	 * Use a key from a file.
+	 * @param keyLocation
+	 */
 	public UseKeys(String keyLocation) {
 		this.keyLocation = keyLocation;
 		init();
+	}
+	
+	/**
+	 * Use a key from a byte array. Type is priv or pub.
+	 * @param type
+	 * @param key
+	 */
+	public UseKeys(String type, byte[] key) {
+		try {
+			initFromByteArray(type, key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void initFromByteArray(String type, byte[] key) throws InvalidKeySpecException, NoSuchAlgorithmException {
+		if(type.equals("priv")) {
+			PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(
+					key);
+			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+			privateKey = keyFactory.generatePrivate(privateKeySpec);
+		} else {
+			X509EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(
+					key);
+			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+			publicKey = keyFactory.generatePublic(publicKeySpec);
+		}
 	}
 	
 	private void init() {
@@ -161,6 +194,17 @@ public class UseKeys {
 				}
 			}
 		}
+	}
+	
+	public String publicKeyToJava() {
+		StringBuilder sb = new StringBuilder();
+		byte[] key = publicKey.getEncoded();
+		sb.append("byte[] key = new byte[");
+		sb.append(key.length);
+		sb.append("]");
+		sb.append(Arrays.toString(key).replace('[', '{').replace(']', '}'));
+		sb.append(";");
+		return sb.toString();
 	}
 
 }

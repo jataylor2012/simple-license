@@ -9,7 +9,7 @@ import org.xtremeturmoil.simplelicense.model.SimpleLicence;
 
 /**
  * There is no stand-alone utility for reading a license as you
- * are expect to integrate into your application.
+ * are expected to integrate into your application.
  * @author jataylor2012
  *
  */
@@ -17,6 +17,10 @@ public class ReadLicense {
 
 	private String key;
 	private String file;
+	public static final String PUBLIC = "pub";
+	public static final String PRIVATE = "priv";
+	private String type;
+	private byte[] byteKey;
 
 	/**
 	 * Remember, if you encrypted with a private key you should decrypt 
@@ -29,6 +33,12 @@ public class ReadLicense {
 		this.file = file;
 	}
 	
+	public ReadLicense(String type, byte[] byteKey, String file) {
+		this.type = type;
+		this.byteKey = byteKey;
+		this.file = file;
+	}
+	
 	/**
 	 * Returns a decrypted representation of the current license.
 	 * @return
@@ -38,7 +48,7 @@ public class ReadLicense {
 		BufferedReader in = null;
 		try {
 			byte[] cipherText = FileUtils.readFileToByteArray(new File(file));
-			UseKeys decrypt = new UseKeys(key);
+			UseKeys decrypt = getUseKeys();
 			byte[] plainText = decrypt.decrypt(cipherText);
 			licence = new SimpleLicence(new String(plainText));
 		} catch (Exception e) {
@@ -53,5 +63,13 @@ public class ReadLicense {
 			}
 		}
 		return licence;
+	}
+	
+	private UseKeys getUseKeys() {
+		if(this.type!=null) {
+			return new UseKeys(this.type, this.byteKey);
+		} else {
+			return new UseKeys(key);
+		}
 	}
 }

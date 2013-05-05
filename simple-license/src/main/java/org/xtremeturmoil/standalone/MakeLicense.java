@@ -27,14 +27,14 @@ public class MakeLicense {
 	 */
 	public static void main(String[] args) {
 		if(args.length!=6) {
-			System.err.println("Usage: keyFile validForDays companyName numberOfUnits startFrom(dd/mm/yyyy) output");
+			System.err.println("Usage: keyFile validForDays companyName numberOfUnits startFrom(dd/MM/yyyy) output");
 		} else {
 			try {
 				String key = args[0];
 				int validForDays = Integer.valueOf(args[1]);
 				String name = args[2];
 				int numberOfUnits = Integer.valueOf(args[3]);
-				SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				Date start = sdf.parse(args[4]);
 				String output = args[5];
 				MakeLicense mklicence = new MakeLicense(validForDays, name, numberOfUnits, start);

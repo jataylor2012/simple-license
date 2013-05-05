@@ -34,7 +34,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>org.xtremeturmoil.standalone.MakeKeys</mainClass>
+							<mainClass>org.xtremeturmoil.standalone.MakeLicense</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
